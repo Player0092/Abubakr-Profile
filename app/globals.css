@@ -1,1 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #08080a;
+  color: #ededf2;
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: #c8ff2e; color: #08080a; }
+
+/* Faint engineering grid + radial glow behind everything */
+.bg-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+.bg-glow {
+  position: fixed;
+  top: -30vh; left: 50%;
+  transform: translateX(-50%);
+  width: 90vw; height: 70vh;
+  z-index: -1;
+  background: radial-gradient(circle at center, rgba(200,255,46,0.10), transparent 60%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+/* Staggered reveal */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise { opacity: 0; animation: rise 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
+
+/* Animated plotted curve in hero */
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.curve-path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: draw 2.4s ease-out 0.3s forwards;
+}
+
+/* Smooth expand for the embed-on-click panel */
+.embed-frame { transition: height 0.45s cubic-bezier(0.16,1,0.3,1); overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .curve-path { animation: none; opacity: 1; stroke-dashoffset: 0; }
+  html { scroll-behavior: auto; }
+}
 
